@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshShare AI - 초지역 B2B 신선 식재료 AI 스마트 매칭 & 직거래 플랫폼</title>
+  <meta name="description"
+    content="반경 500m~1.5km 동네 음식점 간 조리 전 1차 신선 식재료 및 손질 재료를 실시간 직거래하고, AI 다기준 스마트 매칭과 동적 가격 할인으로 폐기 부담을 해결합니다.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥬</text></svg>">
+</head>
+
+<body>
+
+  <!-- 상단 네비게이션 바 -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="brand-logo-icon">🌿</div>
+        <div>
+          <div class="brand-title-wrap">
+            <h1 class="brand-title">FreshShare <span class="highlight-ai">AI</span></h1>
+            <span class="badge-tag">2026 인공지능 기초</span>
+          </div>
+          <p class="brand-sub">초지역(Hyper-local) 음식점 B2B 실시간 식재료 순환 마켓</p>
+        </div>
+      </div>
+
+      <!-- 현재 점주 모드 셀렉터 (매장 전환 시 AI 매칭 피드가 즉시 재계산됨) -->
+      <div class="header-controls">
+        <div class="store-selector-box">
+          <label for="current-store-select" class="selector-label">📍 내 매장 위치:</label>
+          <select id="current-store-select" class="store-select">
+            <!-- 자바스크립트로 옵션 동적 렌더링 -->
+          </select>
+        </div>
+
+        <!-- 핀포인트 알림 센터 버튼 -->
+        <button type="button" class="btn-header-action" id="btn-notification-bell" title="실시간 AI 핀포인트 알림">
+          <span>🔔</span>
+          <span class="noti-badge" id="noti-count-badge">3</span>
+        </button>
+
+        <!-- AI 원리 모달 버튼 -->
+        <button type="button" class="btn-header-action btn-ai-info" id="btn-open-ai-doc">
+          <span>🧠</span>
+          <span>AI 매칭 원리</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 실시간 알림 팝오버 드롭다운 -->
+  <div class="noti-dropdown" id="noti-dropdown" aria-hidden="true">
+    <div class="noti-header">
+      <div class="noti-title">⚡ AI 핀포인트 실시간 알림</div>
+      <span class="noti-sub">연관성 72% 이상 인근 매장에만 전송됨</span>
+    </div>
+    <div class="noti-list" id="noti-list-container">
+      <!-- 동적 알림 아이템 삽입 -->
+    </div>
+  </div>
+
+  <main class="main-content">
+
+    <!-- 하이퍼로컬 실시간 KPI 지표 배너 -->
+    <section class="kpi-banner">
+      <div class="kpi-item">
+        <span class="kpi-icon">🎯</span>
+        <div class="kpi-text">
+          <span class="kpi-label">AI 스마트 매칭률</span>
+          <span class="kpi-value">94.8% <small class="text-up">▲ 3.2%</small></span>
+        </div>
+      </div>
+      <div class="kpi-divider"></div>
+      <div class="kpi-item">
+        <span class="kpi-icon">⏱️</span>
+        <div class="kpi-text">
+          <span class="kpi-label">평균 직거래 체결 시간</span>
+          <span class="kpi-value">18분 <small class="text-sub">(30분 내 픽업)</small></span>
+        </div>
+      </div>
+      <div class="kpi-divider"></div>
+      <div class="kpi-item">
+        <span class="kpi-icon">💰</span>
+        <div class="kpi-text">
+          <span class="kpi-label">오늘 동네 누적 폐기절감</span>
+          <span class="kpi-value text-accent">548,000원</span>
+        </div>
+      </div>
+      <div class="kpi-divider"></div>
+      <div class="kpi-item">
+        <span class="kpi-icon">🌱</span>
+        <div class="kpi-text">
+          <span class="kpi-label">음식물 쓰레기 탄소 저감</span>
+          <span class="kpi-value text-success">142.5 kg CO₂</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 히어로 & 핵심 액션 섹션 -->
+    <section class="action-hero-section">
+      <div class="hero-left">
+        <div class="location-chip">
+          <span class="pulse-dot"></span>
+          <span>현재 상권: <strong>서울 성북구 삼선·동소문·동선 골목상권</strong> (반경 500m ~ 1.5km)</span>
+        </div>
+        <h2 class="hero-heading">
+          남은 식재료 폐기하지 마세요!<br>
+          <span class="gradient-text">다기준 AI가 30분 내 직거래 매칭</span>해 드립니다
+        </h2>
+        <p class="hero-desc">
+          바쁜 주방에서 <strong>음성이나 사진 한 컷</strong>만 찍으세요. AI가 품목·수량·유통기한을 분석해 최적의 인근 타 업종 매장 점주에게만 핀포인트 알림을 보냅니다.
+        </p>
+
+        <div class="hero-button-group">
+          <!-- 음성 간편 등록 버튼 -->
+          <button type="button" class="btn-primary-action btn-voice-register" id="btn-voice-modal">
+            <span class="btn-icon">🎙️</span>
+            <div class="btn-text-wrap">
+              <span class="btn-main-text">AI 음성 간편 등록</span>
+              <span class="btn-sub-text">"대파 5kg 남았어" 말 한마디로 카드 생성</span>
+            </div>
+          </button>
+
+          <!-- 사진 간편 등록 버튼 -->
+          <button type="button" class="btn-primary-action btn-vision-register" id="btn-vision-modal">
+            <span class="btn-icon">📸</span>
+            <div class="btn-text-wrap">
+              <span class="btn-main-text">AI 사진 분석 등록</span>
+              <span class="btn-sub-text">식재료 사진으로 품목·신선도 자동 식별</span>
+            </div>
+          </button>
+
+          <!-- 실시간 레이더 지도 토글 -->
+          <button type="button" class="btn-secondary-action" id="btn-toggle-radar-modal">
+            <span>🗺️</span>
+            <span>초지역 레이더 맵</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 동적 가격 할인율(Dynamic Pricing) 실시간 알고리즘 소개 위젯 -->
+      <div class="hero-right">
+        <div class="pricing-card-preview">
+          <div class="card-preview-header">
+            <span class="pulse-icon">📉</span>
+            <div>
+              <h3 class="preview-title">AI 동적 가격 할인율 산정 엔진</h3>
+              <p class="preview-sub">폐기 시점까지 남은 시간에 따라 원가의 30~40% 가격으로 자동 산정</p>
+            </div>
+          </div>
+
+          <div class="pricing-curve-container">
+            <canvas id="pricingCurveCanvas" width="380" height="150" aria-label="동적 가격 곡선 그래프"></canvas>
+          </div>
+
+          <div class="pricing-stage-indicators">
+            <div class="stage-step">
+              <span class="stage-dot stage-green"></span>
+              <div class="stage-info">
+                <strong>초기 등록 (4~6시간 전)</strong>
+                <span>원가의 60~70% (30~40% 할인)</span>
+              </div>
+            </div>
+            <div class="stage-step">
+              <span class="stage-dot stage-yellow"></span>
+              <div class="stage-info">
+                <strong>골든타임 (2~3시간 전)</strong>
+                <span>원가의 45~55% (50% 수준 급처)</span>
+              </div>
+            </div>
+            <div class="stage-step">
+              <span class="stage-dot stage-red"></span>
+              <div class="stage-info">
+                <strong>마감 임박 (1시간 이내)</strong>
+                <span>원가의 30~40% (즉시 처분 60~70% 할인)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 필터 & 컨트롤 툴바 -->
+    <section class="filter-toolbar">
+      <!-- 반경 필터 -->
+      <div class="toolbar-group">
+        <span class="filter-label">📍 직거래 반경:</span>
+        <div class="radius-toggle-group" id="radius-tabs">
+          <button type="button" class="btn-filter-chip" data-radius="500">🚶 500m 이내 (도보 5분)</button>
+          <button type="button" class="btn-filter-chip" data-radius="1000">⚡ 1.0km 이내</button>
+          <button type="button" class="btn-filter-chip active" data-radius="1500">🛵 전체 1.5km 이내</button>
+        </div>
+      </div>
+
+      <!-- 카테고리 필터 -->
+      <div class="toolbar-group">
+        <span class="filter-label">🥗 카테고리:</span>
+        <div class="category-toggle-group" id="category-tabs">
+          <button type="button" class="btn-category-chip active" data-cat="전체">전체</button>
+          <button type="button" class="btn-category-chip" data-cat="채소/손질채소">채소/손질</button>
+          <button type="button" class="btn-category-chip" data-cat="해산물/어패류">해산물</button>
+          <button type="button" class="btn-category-chip" data-cat="유제품/치즈">치즈/유제품</button>
+          <button type="button" class="btn-category-chip" data-cat="육류/손질정육">손질육류</button>
+          <button type="button" class="btn-category-chip" data-cat="허브/향신료">허브/향신</button>
+          <button type="button" class="btn-category-chip" data-cat="과일/가니쉬">과일/후숙</button>
+        </div>
+      </div>
+
+      <!-- 정렬 방식 -->
+      <div class="toolbar-group sort-group">
+        <label for="sort-select" class="filter-label">정렬:</label>
+        <select id="sort-select" class="sort-select">
+          <option value="ai-match" selected>🤖 다기준 AI 매칭 적합도순</option>
+          <option value="urgency">🔥 마감 임박순 (최대 할인율)</option>
+          <option value="distance">📍 가까운 거리순 (도보 픽업)</option>
+          <option value="price-asc">💰 낮은 가격순</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 피드 헤더 통계 -->
+    <div class="feed-header-info">
+      <div id="feed-status-text">
+        현재 <strong>비스트로 보노 (이탈리안)</strong> 셰프님을 위해 AI가 엄선한 직거래 추천 식재료입니다.
+      </div>
+      <div class="live-counter">
+        <span class="live-bullet"></span> 실시간 등록 매물 <strong id="item-count-label">8</strong>건
+      </div>
+    </div>
+
+    <!-- 실시간 식재료 카드 그리드 -->
+    <section class="food-cards-grid" id="food-cards-container">
+      <!-- 자바스크립트로 AI 계산된 카드가 동적 렌더링됩니다 -->
+    </section>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 모달 1: AI 음성 간편 등록 모달 (Web Speech API & 자연어 NER 추출) -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-voice" aria-hidden="true">
+    <div class="modal-card modal-voice-card">
+      <button type="button" class="btn-modal-close" data-close="modal-voice">✕</button>
+
+      <div class="modal-head">
+        <span class="modal-head-icon">🎙️</span>
+        <div>
+          <h3 class="modal-title">AI 음성 간편 판매카드 생성</h3>
+          <p class="modal-desc">주방에서 양손이 바쁠 때 음성으로 말하면 AI가 품목, 수량, 가격, 마감기한을 즉시 추출합니다.</p>
+        </div>
+      </div>
+
+      <!-- 음성 인식 컨트롤 인터페이스 -->
+      <div class="voice-interactive-panel">
+        <div class="mic-animation-box" id="mic-animation-box">
+          <button type="button" class="btn-mic-trigger" id="btn-mic-start">
+            <span class="mic-svg">🎤</span>
+          </button>
+          <div class="sound-wave-ring ring-1"></div>
+          <div class="sound-wave-ring ring-2"></div>
+        </div>
+        <p class="voice-guide-text" id="voice-status-text">마이크 버튼을 누르고 말씀하시거나, 아래 현장 음성 예시를 클릭하세요.</p>
+      </div>
+
+      <!-- 빠른 음성 시뮬레이션 프리셋 칩 -->
+      <div class="voice-presets-wrapper">
+        <span class="preset-label">💡 외식업 현장 음성 시뮬레이션:</span>
+        <div class="preset-chips-list" id="voice-preset-list">
+          <!-- data.js의 PRESET_VOICE_SAMPLES 동적 로드 -->
+        </div>
+      </div>
+
+      <!-- 음성 텍스트 표시창 -->
+      <div class="speech-result-box">
+        <label class="input-sublabel">인식된 음성 텍스트:</label>
+        <textarea id="voice-recognized-text" class="speech-textarea" rows="2"
+          placeholder="음성을 입력하거나 위 프리셋 버튼을 클릭하세요..."></textarea>
+      </div>
+
+      <!-- AI 분석 추출 결과 미리보기 -->
+      <div class="ai-extracted-preview" id="voice-extracted-preview" style="display:none;">
+        <div class="preview-badge">✨ AI 자연어 개체명(NER) 파싱 완료</div>
+        <div class="parsed-grid">
+          <div class="parsed-item">
+            <span class="p-label">추출 품목</span>
+            <strong class="p-value" id="res-item-name">-</strong>
+          </div>
+          <div class="parsed-item">
+            <span class="p-label">식재료 분류</span>
+            <strong class="p-value" id="res-item-cat">-</strong>
+          </div>
+          <div class="parsed-item">
+            <span class="p-label">수량 / 포장</span>
+            <strong class="p-value" id="res-item-qty">-</strong>
+          </div>
+          <div class="parsed-item">
+            <span class="p-label">원가 / 동적할인가</span>
+            <strong class="p-value text-accent" id="res-item-price">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="btn-cancel" data-close="modal-voice">취소</button>
+        <button type="button" class="btn-submit-action" id="btn-confirm-voice-register" disabled>
+          ⚡ 실시간 판매카드 등록 & 핀포인트 알림 발송
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 모달 2: AI 사진 식재료 분석 등록 모달 (Vision AI Classifier) -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-vision" aria-hidden="true">
+    <div class="modal-card modal-vision-card">
+      <button type="button" class="btn-modal-close" data-close="modal-vision">✕</button>
+
+      <div class="modal-head">
+        <span class="modal-head-icon">📸</span>
+        <div>
+          <h3 class="modal-title">AI 사진 식재료 비전 분석</h3>
+          <p class="modal-desc">남은 재료 사진을 촬영하거나 업로드하면 CNN 비전 AI가 색상 스펙트럼과 질감을 분석해 품목을 자동 분류합니다.</p>
+        </div>
+      </div>
+
+      <div class="vision-upload-layout">
+        <div class="vision-dropzone" id="vision-dropzone">
+          <img id="vision-preview-img" class="vision-img-preview" src="" alt="식재료 분석 이미지" style="display:none;">
+          <div class="dropzone-placeholder" id="dropzone-placeholder">
+            <span style="font-size: 3rem;">📷</span>
+            <p style="margin: 0.5rem 0 0.2rem; font-weight: 600;">식재료 사진을 드래그하거나 클릭하여 업로드</p>
+            <small style="color: var(--text-dim);">JPG, PNG, WebP 지원</small>
+          </div>
+          <input type="file" id="vision-file-input" accept="image/*" style="display:none;">
+        </div>
+
+        <!-- 샘플 이미지 프리셋 -->
+        <div class="vision-samples-side">
+          <span class="preset-label">테스트용 식재료 사진 선택:</span>
+          <div class="sample-photo-buttons">
+            <button type="button" class="sample-photo-btn"
+              data-img="https://images.unsplash.com/photo-1618164435735-413d3b066194?w=400&auto=format&fit=crop&q=80">
+              🌱 손질 햇대파
+            </button>
+            <button type="button" class="sample-photo-btn"
+              data-img="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&auto=format&fit=crop&q=80">
+              🐟 슈페리어 생연어
+            </button>
+            <button type="button" class="sample-photo-btn"
+              data-img="https://images.unsplash.com/photo-1592417817098-8f3d6910985b?w=400&auto=format&fit=crop&q=80">
+              🧀 생모짜렐라 치즈
+            </button>
+            <button type="button" class="sample-photo-btn"
+              data-img="https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=400&auto=format&fit=crop&q=80">
+              🥩 한우 손질 정육
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 비전 분석 진행 바 및 결과 -->
+      <div class="vision-analysis-report" id="vision-analysis-box" style="display:none;">
+        <div class="analysis-status-row">
+          <span class="spinner-inline"></span>
+          <span id="vision-status-text">Vision AI 색상 및 엣지 분광 분석 중...</span>
+        </div>
+        <div class="vision-result-details" id="vision-result-details" style="display:none;">
+          <!-- 동적 파싱 결과 삽입 -->
+        </div>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="btn-cancel" data-close="modal-vision">취소</button>
+        <button type="button" class="btn-submit-action" id="btn-confirm-vision-register" disabled>
+          ⚡ 분석된 품목으로 판매카드 등록
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 모달 3: 초지역 실시간 레이더 맵 (Interactive Radar Map) -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-radar" aria-hidden="true">
+    <div class="modal-card modal-radar-card">
+      <button type="button" class="btn-modal-close" data-close="modal-radar">✕</button>
+
+      <div class="modal-head">
+        <span class="modal-head-icon">🗺️</span>
+        <div>
+          <h3 class="modal-title">초지역(Hyper-local) 동네 음식점 실시간 레이더</h3>
+          <p class="modal-desc">성북구 삼선동·동소문동 골목 반경 500m / 1.0km / 1.5km 내 참여 음식점과 실시간 직거래 네트워크</p>
+        </div>
+      </div>
+
+      <div class="radar-canvas-wrap">
+        <canvas id="radarMapCanvas" width="680" height="420" aria-label="초지역 레이더 지도"></canvas>
+        <div class="radar-legend">
+          <span class="legend-item"><span class="legend-color legend-my"></span> 내 매장 (중심)</span>
+          <span class="legend-item"><span class="legend-color legend-target"></span> 핀포인트 매칭 매장</span>
+          <span class="legend-item"><span class="legend-color legend-other"></span> 일반 참여 매장</span>
+        </div>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="btn-submit-action" data-close="modal-radar">지도 닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 모달 4: 직거래 픽업 신청 및 30분 타이머 완료 모달 -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-deal" aria-hidden="true">
+    <div class="modal-card modal-deal-card">
+      <button type="button" class="btn-modal-close" data-close="modal-deal">✕</button>
+
+      <div class="deal-success-header">
+        <div class="deal-check-icon">✓</div>
+        <h3 class="deal-title">30분 내 직거래 픽업 매칭 완료!</h3>
+        <p class="deal-subtitle">물류비 0원 • 도보 직접 픽업으로 신선도 100% 보장</p>
+      </div>
+
+      <div class="deal-voucher-box" id="deal-voucher-container">
+        <!-- 거래 상세 영수증이 동적으로 주입됩니다 -->
+      </div>
+
+      <div class="timer-countdown-box">
+        <div class="timer-label">⏳ 직거래 안전 픽업 잔여 시간</div>
+        <div class="timer-digits" id="deal-countdown-timer">29:59</div>
+        <div class="timer-progress-track">
+          <div class="timer-progress-bar" id="deal-timer-progress"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="btn-submit-action" id="btn-complete-deal-pickup">
+          🤝 픽업 완료 및 식재료 인수 확인
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 모달 5: [2026 인공지능 기초] AI 알고리즘 상세 설명 모달 -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-ai-doc" aria-hidden="true">
+    <div class="modal-card modal-doc-card">
+      <button type="button" class="btn-modal-close" data-close="modal-ai-doc">✕</button>
+
+      <div class="modal-head">
+        <span class="modal-head-icon">🧠</span>
+        <div>
+          <h3 class="modal-title">[인공지능 기초] AI 다기준 스마트 매칭 & 동적 가격 결정 원리</h3>
+          <p class="modal-desc">성신여자고등학교 20329 허가은 | 2026학년도 인공지능 기초 프로젝트</p>
+        </div>
+      </div>
+
+      <div class="doc-scroll-content">
+        <!-- 1. 초지역 거리 감쇠 모델 -->
+        <article class="doc-section">
+          <h4 class="doc-sec-title">1. 초지역(500m~1.5km) Haversine 구면 거리 및 가우시안 감쇠</h4>
+          <p class="doc-p">
+            동네 음식점 간의 실시간 직거래는 <strong>도보 5~15분 이내</strong>에 물류비 없이 이루어져야 합니다.
+            위도($\phi$)와 경도($\lambda$)를 기반으로 Haversine 수식을 적용해 실제 보행 거리를 계산하며,
+            반경 500m 이내 매장에 최고 점수(1.0)를 부여하는 가우시안 거리 감쇠 함수 $S_{\text{dist}}(d)$를 적용했습니다:
+          </p>
+          <div class="math-formula-box">
+            $$d = 2R \arcsin\left(\sqrt{\sin^2\left(\frac{\Delta\phi}{2}\right) +
+            \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta\lambda}{2}\right)}\right)$$
+            $$S_{\text{dist}}(d) = \exp\left(-\frac{d^2}{2 \cdot \sigma^2}\right) \quad (\sigma = 800\text{m})$$
+          </div>
+        </article>
+
+        <!-- 2. 다기준 AI 가중치 최적화 모델 -->
+        <article class="doc-section">
+          <h4 class="doc-sec-title">2. 다기준 AI 스마트 매칭 종합 점수 (Multi-Criteria Composite Scoring)</h4>
+          <p class="doc-p">
+            단순히 가까운 매장만 찾는 것이 아니라, <strong>1) 물리적 거리</strong>, <strong>2) 마감 시급성</strong>,
+            <strong>3) 식재료-업종 연관성(지식그래프 & TF-IDF)</strong>, <strong>4) 점주 신뢰도</strong>의 4대 다변량 피처를 기계학습 가중치로 종합 계산합니다:
+          </p>
+          <div class="math-formula-box">
+            $$\text{Score} = w_1 S_{\text{dist}} + w_2 S_{\text{urgency}} + w_3 S_{\text{category}} + w_4
+            S_{\text{reliability}}$$
+            $$\text{단, } w_1 = 0.30, \; w_2 = 0.25, \; w_3 = 0.35, \; w_4 = 0.10 \quad (\sum w_i = 1.0)$$
+          </div>
+          <p class="doc-p">
+            종합 점수가 <strong>72점 이상인 인근 타 업종 매장</strong>에만 핀포인트(Pinpoint) 실시간 알림을 발송함으로써 불필요한 스팸 알림을 원천 차단하고 거래 성사율을
+            극대화합니다.
+          </p>
+        </article>
+
+        <!-- 3. 동적 가격 할인율(Dynamic Pricing) 회귀 모델 -->
+        <article class="doc-section">
+          <h4 class="doc-sec-title">3. 폐기 방지 동적 가격 할인율(Dynamic Pricing with Time Decay)</h4>
+          <p class="doc-p">
+            식재료는 시간이 지남에 따라 가치가 급락하며 결국 폐기 비용이 발생합니다. 본 모델은 마감까지 남은 시간 $T$에 따른 비선형 지수 감쇠 곡선을 적용하여,
+            폐기 직전에는 <strong>원가의 30~40% 가격에 즉시 처분</strong>되도록 할인율을 동적으로 자동 산정합니다:
+          </p>
+          <div class="math-formula-box">
+            $$\text{Price Ratio}(T) = 0.30 + 0.38 \cdot \left(1 - e^{-0.45 \cdot T}\right)$$
+            $$\text{Discount Rate}(\%) = (1 - \text{Price Ratio}(T)) \times 100$$
+          </div>
+          <ul class="doc-list">
+            <li><strong>초기 등록 (4~6시간 전):</strong> 30~40% 할인 (판매자 원가 조기 회수)</li>
+            <li><strong>골든타임 (2~3시간 전):</strong> 50~55% 할인 (인근 매장 적극 매입 유도)</li>
+            <li><strong>마감 임박 (1시간 이내):</strong> 65~70% 할인 (원가의 30~35%에 즉시 처분하여 폐기 손실 방어)</li>
+          </ul>
+        </article>
+
+        <!-- 4. 음성/사진 AI 간편 입력 (NLP NER & Vision Classification) -->
+        <article class="doc-section">
+          <h4 class="doc-sec-title">4. 외식업 맞춤형 음성(STT & NER) 및 비전(CNN Feature Extraction) 간편 등록</h4>
+          <p class="doc-p">
+            외식업 주방 현장의 특성상 키보드 입력이 어렵습니다. Web Speech API 기반 음성 인식 모델에서 품목명, 수량, 가격 개체명을 추출하는 자연어 규칙 및 정규식 파이프라인을 구축했으며,
+            사진 업로드 시 RGB 분광 히스토그램과 텍스처 패턴을 실시간 분석하여 식재료 분류와 최적 보관 조건을 자동 제안합니다.
+          </p>
+        </article>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="btn-submit-action" data-close="modal-ai-doc">확인 완료</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <strong>FreshShare AI (초지역 식재료 AI 스마트 매칭 직거래 플랫폼)</strong>
+        <p>2026학년도 인공지능 기초 프로젝트 • 성신여자고등학교 20329 허가은</p>
+      </div>
+      <div class="footer-right">
+        <span>Zero-Install Client Web App • Pure Vanilla JS & CSS3</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 스크립트 로드: 마스터 데이터 -> AI 엔진 -> 메인 앱 UI 컨트롤러 -->
+  <script src="js/data.js"></script>
+  <script src="js/ai_engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
